@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PlayBlitz</string>
+    <string name="accessibility_service_description">
+        PlayBlitz helps you get back to your game faster by automatically
+        dismissing ad close/skip buttons as soon as they become available.
+        No audio changes, no network modifications, no policy violations.
+    </string>
+    <string name="channel_name">PlayBlitz</string>
+    <string name="channel_desc">Game Priority Service Notifications</string>
+    <string name="notif_title">🎮 PlayBlitz Active</string>
+    <string name="notif_body">Watching for ads — tap to open app</string>
+    <string name="return_notif_title">📺 Ad is playing…</string>
+    <string name="return_notif_body">Tap to return to your game immediately</string>
+</resources>

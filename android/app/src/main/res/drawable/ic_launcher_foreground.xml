@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    App Icon Foreground — Lightning Bolt
+    Simple, clean, professional. NOT AI-looking.
+    Green bolt on transparent = protection + speed.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outer glow (soft circle) -->
+    <path
+        android:fillColor="#1A00C853"
+        android:pathData="M54,10 A44,44 0 1,1 53.99,10 Z" />
+
+    <!-- Lightning bolt — main shape -->
+    <path
+        android:fillColor="#00C853"
+        android:pathData="
+            M 60,14
+            L 34,56
+            L 52,56
+            L 48,94
+            L 74,52
+            L 56,52
+            Z" />
+
+    <!-- Lightning bolt — highlight (lighter green, inner shine) -->
+    <path
+        android:fillColor="#69F0AE"
+        android:pathData="
+            M 60,14
+            L 50,40
+            L 56,40
+            L 54,56
+            L 52,56
+            L 60,14
+            Z"
+        android:fillAlpha="0.5" />
+</vector>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    AdFastDismiss — Status bar notification icon (24dp white vector).
+    White color ensures visibility on both light and dark notification bars.
+    Represents a shield with a fast-forward symbol (ad skip concept).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Shield outline -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,1L3,5v6c0,5.55 3.84,10.74 9,12 5.16,-1.26 9,-6.45 9,-12L21,5 12,1zM12,11.99h-1.5L10.5,7h1.5v4.99zM12,15h-1.5v-1.5L12,13.5L12,15z" />
+    <!-- Fast-forward arrows overlaid (smaller, to fit inside shield) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M7.5,9.5l2.5,1.5 -2.5,1.5L7.5,9.5zM10.5,9.5l2.5,1.5 -2.5,1.5L10.5,9.5z" />
+</vector>
