@@ -44,3 +44,6 @@
     public static int d(...);
     public static int v(...);
 }
+
+# Ignore Play Core deferred components warnings in Flutter
+-dontwarn com.google.android.play.core.**
