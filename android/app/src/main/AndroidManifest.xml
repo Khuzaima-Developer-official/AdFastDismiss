@@ -62,7 +62,7 @@
         <!-- Accessibility Service — user enables manually in Settings -->
         <service
             android:name=".service.GamePriorityService"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/app_name"
             android:description="@string/accessibility_service_description"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">

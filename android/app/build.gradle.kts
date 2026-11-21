@@ -27,9 +27,20 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("upload-keystore.jks")
+            storePassword = "playblitz2026"
+            keyAlias = "playblitz"
+            keyPassword = "playblitz2026"
+            enableV1Signing = true
+            enableV2Signing = true
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             // Enable R8 shrinking but keep our rules
             isMinifyEnabled = true
             isShrinkResources = true
