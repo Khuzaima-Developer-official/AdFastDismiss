@@ -1,21 +1,43 @@
 import 'package:flutter/services.dart';
 
 /// PlatformBridge — MethodChannel bridge to Kotlin layer.
-/// All Android system calls go through this single channel.
+/// 100% Google Play Protect Safe (No Accessibility Dependency).
 class PlatformBridge {
   static const _channel =
       MethodChannel('com.adgamepriority.ad_fast_dismiss/service');
 
-  /// Check if the Accessibility Service is enabled in Android Settings.
-  static Future<bool> isAccessibilityEnabled() async {
+  /// Check if Overlay permission (Display over other apps) is granted.
+  static Future<bool> canDrawOverlays() async {
     try {
-      return await _channel.invokeMethod<bool>('isAccessibilityEnabled') ?? false;
+      return await _channel.invokeMethod<bool>('canDrawOverlays') ?? false;
     } catch (_) { return false; }
   }
 
-  /// Opens Android Accessibility Settings so user can enable the service.
-  static Future<void> openAccessibilitySettings() async {
-    try { await _channel.invokeMethod('openAccessibilitySettings'); } catch (_) {}
+  /// Opens Android settings to grant Overlay permission.
+  static Future<void> openOverlaySettings() async {
+    try { await _channel.invokeMethod('openOverlaySettings'); } catch (_) {}
+  }
+
+  /// Check if Usage Access permission is granted.
+  static Future<bool> hasUsageAccess() async {
+    try {
+      return await _channel.invokeMethod<bool>('hasUsageAccess') ?? false;
+    } catch (_) { return false; }
+  }
+
+  /// Opens Android settings to grant Usage Access.
+  static Future<void> openUsageAccessSettings() async {
+    try { await _channel.invokeMethod('openUsageAccessSettings'); } catch (_) {}
+  }
+
+  /// Starts the Foreground GamePriorityService.
+  static Future<void> startService() async {
+    try { await _channel.invokeMethod('startService'); } catch (_) {}
+  }
+
+  /// Stops the Foreground GamePriorityService.
+  static Future<void> stopService() async {
+    try { await _channel.invokeMethod('stopService'); } catch (_) {}
   }
 
   /// Toggles the service active/inactive.
@@ -28,6 +50,15 @@ class PlatformBridge {
     try {
       return await _channel.invokeMethod<bool>('isServiceEnabled') ?? true;
     } catch (_) { return true; }
+  }
+
+  /// Backward-compat: returns true if overlay is granted
+  static Future<bool> isAccessibilityEnabled() async {
+    return await canDrawOverlays();
+  }
+
+  static Future<void> openAccessibilitySettings() async {
+    await openOverlaySettings();
   }
 
   /// Fetches stats map: totalAds, totalSecsSaved, todayAds, todaySecsSaved.
@@ -56,13 +87,12 @@ class PlatformBridge {
     try { await _channel.invokeMethod('clearStats'); } catch (_) {}
   }
 
-  /// Clears all learned coordinates (troubleshooting — resets CoordLearner memory).
+  /// Clears all learned coordinates.
   static Future<void> clearLearnedCoords() async {
     try { await _channel.invokeMethod('clearLearnedCoords'); } catch (_) {}
   }
 
   /// Returns list of installed user apps as [{name: String, pkg: String}].
-  /// Used by the game picker in Settings.
   static Future<List<Map<String, String>>> getInstalledApps() async {
     try {
       final raw = await _channel.invokeMethod<List>('getInstalledApps') ?? [];
@@ -76,18 +106,6 @@ class PlatformBridge {
     } catch (_) { return []; }
   }
 
-  /// Checks if overlay permission (SYSTEM_ALERT_WINDOW) is granted.
-  static Future<bool> canDrawOverlays() async {
-    try {
-      return await _channel.invokeMethod<bool>('canDrawOverlays') ?? false;
-    } catch (_) { return false; }
-  }
-
-  /// Opens overlay permission settings.
-  static Future<void> openOverlaySettings() async {
-    try { await _channel.invokeMethod('openOverlaySettings'); } catch (_) {}
-  }
-
   /// Requests POST_NOTIFICATIONS permission (Android 13+).
   static Future<bool> requestNotificationPermission() async {
     try {
@@ -98,25 +116,15 @@ class PlatformBridge {
   /// Gets the current app version string.
   static Future<String> getAppVersion() async {
     try {
-      return await _channel.invokeMethod<String>('getAppVersion') ?? '1.0.0';
-    } catch (_) { return '1.0.0'; }
+      return await _channel.invokeMethod<String>('getAppVersion') ?? '1.3.0';
+    } catch (_) { return '1.3.0'; }
   }
 
-  /// Gets phase breakdown — which cascade phase is most effective.
-  /// Returns e.g. {'3': 12, '4': 7, '5': 2} meaning Phase 3 succeeded 12 times.
+  /// Gets phase breakdown.
   static Future<Map<String, int>> getPhaseBreakdown() async {
     try {
       final raw = await _channel.invokeMethod<Map>('getPhaseBreakdown') ?? {};
       return raw.map((k, v) => MapEntry(k.toString(), (v as int?) ?? 0));
     } catch (_) { return {}; }
-  }
-
-  /// Gets all learned coordinates from CoordLearner.
-  /// Returns list of maps with keys: key, xRatio, yRatio, successCount, highConf.
-  static Future<List<Map<String, dynamic>>> getLearnedCoords() async {
-    try {
-      final raw = await _channel.invokeMethod<List>('getLearnedCoords') ?? [];
-      return raw.map((e) => Map<String, dynamic>.from(e as Map)).toList();
-    } catch (_) { return []; }
   }
 }

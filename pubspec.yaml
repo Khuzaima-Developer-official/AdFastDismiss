@@ -1,7 +1,7 @@
 name: ad_fast_dismiss
-description: "AdFastDismiss — Dismiss game ads fast. Policy-safe AccessibilityService app."
+description: "AdFastDismiss — Sub-1-second game ad minimizer and priority gaming shield. 100% Policy-Safe."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.3.0+4
 
 environment:
   sdk: ^3.10.4

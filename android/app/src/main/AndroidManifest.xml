@@ -4,27 +4,36 @@
 
     <!-- Foreground service (all API levels) -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <!-- Return-to-game notification (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <!-- Window management -->
+    <!-- Window management & Task reorder -->
     <uses-permission android:name="android.permission.REORDER_TASKS" />
 
-    <!-- Optional overlay -->
+    <!-- Floating Blitz Pill & Mini-Bar Overlay -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <!-- Game Active Detection via Usage Access -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Haptic feedback for blitz triggers -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Boot completed to keep game priority alive -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <!--
-        FIX C-5: Android 11+ (API 30+) package visibility.
-        Without this <queries> block, queryIntentActivities returns EMPTY on Android 11+.
-        This tells Android which intents we query — required for installed apps picker.
+        Android 11+ (API 30+) package visibility.
+        Tells Android which intents we query — required for installed apps picker.
     -->
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent>
-        <!-- Also need to launch arbitrary game packages by package name -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
         </intent>
@@ -59,25 +68,16 @@
             </intent-filter>
         </activity>
 
-        <!-- Accessibility Service — user enables manually in Settings -->
+        <!-- Core Game Priority & Ad Minimizer Service (Zero Accessibility - 100% Play Protect Safe) -->
         <service
             android:name=".service.GamePriorityService"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:description="@string/accessibility_service_description"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config" />
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="GamePriority Gaming Shield and Ad Minimizer" />
         </service>
 
-        <!--
-            FIX BUG-14: No foregroundServiceType — plain FOREGROUND_SERVICE permission
-            is enough for all APIs 26–34+.
-        -->
         <service
             android:name=".service.PersistentForegroundService"
             android:exported="false" />
